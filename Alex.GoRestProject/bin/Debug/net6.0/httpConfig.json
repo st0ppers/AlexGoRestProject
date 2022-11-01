@@ -1,0 +1,6 @@
+{
+    "HttpClient": {
+        "BaseUrl": "https://gorest.co.in/public/v2/",
+        "Token": "Bearer 7a4d93e6cef63abba3b963a683e74d35984f50f13ff670dd9370a23dd170fd19"
+    }
+}
