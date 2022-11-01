@@ -169,9 +169,11 @@ this.ScenarioInitialize(scenarioInfo);
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Update a user")]
+        [NUnit.Framework.CategoryAttribute("CreateUser")]
         public virtual void UpdateAUser()
         {
-            string[] tagsOfScenario = ((string[])(null));
+            string[] tagsOfScenario = new string[] {
+                    "CreateUser"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Update a user", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
 #line 22
@@ -194,23 +196,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Name",
-                            "Email",
-                            "Gender",
-                            "Status"});
-                table1.AddRow(new string[] {
-                            "TestName",
-                            "testemail@gmail.com",
-                            "male",
-                            "active"});
 #line 23
- testRunner.Given("I have already created a user", ((string)(null)), table1, "Given ");
+ testRunner.Given("I have already created a user", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 26
+#line 24
  testRunner.When("I send put request to the users endpoint", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 27
+#line 25
  testRunner.Then("The status code should be OK", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

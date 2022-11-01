@@ -12,6 +12,8 @@ namespace Alex.GoRestProject.Tests.StepDefinitions
         private UserContextContainer _userContextContainer;
         private readonly BaseConfig _baseConfig;
         private UserRequest _user;
+        private UserToUpdate _userToUpdate;
+
 
         //get all
         public UserStepDefinition(UserContextContainer userContextContainer, BaseConfig baseConfig)
@@ -45,6 +47,7 @@ namespace Alex.GoRestProject.Tests.StepDefinitions
             if (valid)
             {
                 _user = _userContextContainer.User;
+
             }
             else
             {
@@ -67,7 +70,12 @@ namespace Alex.GoRestProject.Tests.StepDefinitions
             };
 
             _responseMessage = _userContextContainer.HttpClient.SendAsync(requestBody).Result;
-            //_responseMessage.IsSuccessStatusCode
+            if (_responseMessage.IsSuccessStatusCode)
+            {
+                var addedUserToDB = JsonConvert.DeserializeObject<UserToUpdate>(_responseMessage.Content.ReadAsStringAsync().Result);
+                _userContextContainer.Id = addedUserToDB.Id;
+            }
+
         }
         [Then(@"the user should be created successfully")]
         public void ThenTheUserShouldBeCreatedSuccessfully()
@@ -79,21 +87,35 @@ namespace Alex.GoRestProject.Tests.StepDefinitions
             }
             else
             {
-                var badResult = JsonConvert.DeserializeObject<IEnumerable<FailedMessage>>(_responseMessage.Content.ReadAsStringAsync().Result);
+                var badResult =
+                    JsonConvert.DeserializeObject<IEnumerable<FailedMessage>>(_responseMessage.Content
+                        .ReadAsStringAsync().Result);
             }
         }
 
         //Update user
+        
         [Given(@"I have already created a user")]
-        public void GivenIHaveAlreadyCreatedAUser(Table table)
+        public void GivenIHaveAlreadyCreatedAUser()
         {
-            throw new PendingStepException();
+            _user = _userContextContainer.User;
+            _userContextContainer.Id = 5305;
         }
 
-        [When(@"I send put request to the (.*)endpoint")]
+        [When(@"I send put request to the (.*) endpoint")]
         public void WhenISendPutRequestToTheUsersEndpoint(string endpoint)
         {
-            throw new PendingStepException();
+            var request = JsonConvert.SerializeObject(_user);
+            var content = new StringContent(request, Encoding.UTF8, "application/json");
+
+            var requestBody = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Put,
+                RequestUri = new Uri($"{_baseConfig.ClientConfig.BaseUrl}{endpoint}/{_userContextContainer.Id}"),
+                Content = content
+            };
+
+            _responseMessage = _userContextContainer.HttpClient.SendAsync(requestBody).Result;
         }
 
     }

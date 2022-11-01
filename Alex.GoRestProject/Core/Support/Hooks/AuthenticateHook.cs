@@ -1,4 +1,5 @@
 ﻿using Bogus;
+using Newtonsoft.Json;
 
 namespace Alex.GoRestProject.Core.Support.Hooks
 {
@@ -47,5 +48,7 @@ namespace Alex.GoRestProject.Core.Support.Hooks
 
             _container.User = user.Generate();
         }
+
+
     }
 }
